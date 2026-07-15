@@ -167,7 +167,7 @@
                     <i class="fas fa-check text-3xl text-blue-500"></i>
                 </div>
                 <h2 class="text-2xl font-bold">ชำระเงินสำเร็จ</h2>
-                <p class="opacity-80 text-sm mt-1">ใบเสร็จส่งไปยังอีเมลแล้ว</p>
+                <p class="opacity-80 text-sm mt-1">สินค้าจัดส่งไปยังอีเมลแล้ว</p>
             </div>
             <div class="p-6 bg-white space-y-4 text-sm relative">
                 <div class="flex justify-between border-b pb-2"><span class="text-slate-500">รหัสอ้างอิง</span><span class="font-medium" id="rcptId"></span></div>
@@ -216,15 +216,15 @@
                 </div>
                 <div>
                     <label class="block text-sm font-bold text-slate-700 mb-2">หัวข้อ (Title)</label>
-                    <input type="text" id="adminPopupTitle" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-blue-500" placeholder="เช่น ยินดีต้อนรับ!">
+                    <input type="text" id="adminPopupTitle" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-blue-500">
                 </div>
                 <div>
                     <label class="block text-sm font-bold text-slate-700 mb-2">ข้อความ (Message)</label>
-                    <textarea id="adminPopupMsg" rows="4" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-blue-500" placeholder="รายละเอียดประกาศ..."></textarea>
+                    <textarea id="adminPopupMsg" rows="4" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-blue-500"></textarea>
                 </div>
                 <div>
                     <label class="block text-sm font-bold text-slate-700 mb-2">ลิงก์รูปภาพ (เว้นว่างได้)</label>
-                    <input type="text" id="adminPopupImg" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-blue-500" placeholder="https://...">
+                    <input type="text" id="adminPopupImg" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-blue-500">
                 </div>
                 <button onclick="saveAdminPopup()" class="w-full bg-green-600 text-white py-3 mt-2 rounded-xl font-bold hover:bg-green-700 transition shadow-sm">
                     <i class="fas fa-save mr-2"></i> บันทึกการตั้งค่า Popup
@@ -235,7 +235,7 @@
 
     <!-- Product Form Sub-Modal -->
     <div id="productFormModal" class="fixed inset-0 bg-black/60 z-[80] hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl w-full max-w-md p-6 shadow-2xl relative">
+        <div class="bg-white rounded-2xl w-full max-w-md p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
             <button onclick="closeModal('productFormModal')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600"><i class="fas fa-times text-xl"></i></button>
             <h3 id="productFormTitle" class="text-xl font-bold mb-4">เพิ่มสินค้า</h3>
             <input type="hidden" id="adminProdId">
@@ -243,7 +243,7 @@
             <div class="space-y-3">
                 <div>
                     <label class="text-sm font-medium text-slate-700">ลิงก์รูปภาพสินค้า (URL)</label>
-                    <input type="text" id="adminProdImg" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-blue-500" placeholder="https://...">
+                    <input type="text" id="adminProdImg" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-blue-500">
                 </div>
                 <div>
                     <label class="text-sm font-medium text-slate-700">ชื่อสินค้า</label>
@@ -252,7 +252,7 @@
                 <div class="grid grid-cols-2 gap-3">
                     <div>
                         <label class="text-sm font-medium text-slate-700">ระยะเวลา</label>
-                        <input type="text" id="adminProdDur" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-blue-500" placeholder="เช่น 30 วัน">
+                        <input type="text" id="adminProdDur" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-blue-500">
                     </div>
                     <div>
                         <label class="text-sm font-medium text-slate-700">ราคา (บาท)</label>
@@ -261,8 +261,15 @@
                 </div>
                 <div>
                     <label class="text-sm font-medium text-slate-700">รายละเอียดสินค้า</label>
-                    <textarea id="adminProdDesc" rows="3" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-blue-500"></textarea>
+                    <textarea id="adminProdDesc" rows="2" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-blue-500"></textarea>
                 </div>
+                <div>
+                    <label class="text-sm font-medium text-slate-700 flex justify-between">
+                        <span>สต๊อกสินค้า (1 บรรทัด / 1 ชิ้น)</span>
+                    </label>
+                    <textarea id="adminProdStock" rows="4" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-blue-500 font-mono text-sm" placeholder="user1:pass1\nuser2:pass2"></textarea>
+                </div>
+                
                 <button onclick="saveAdminProduct()" class="w-full bg-slate-800 text-white py-3 rounded-xl font-bold hover:bg-slate-900 transition mt-2">
                     บันทึกข้อมูลสินค้า
                 </button>
@@ -306,8 +313,8 @@
                 if(GAS_WEB_APP_URL === 'YOUR_GOOGLE_WEB_APP_URL_HERE') {
                     console.warn("Demo Data Loaded.");
                     productsData = [
-                        {id:'1', name:'Netflix Premium', duration:'30 วัน', price: 99, details:'จอส่วนตัว 4K', imageUrl: ''},
-                        {id:'2', name:'Spotify Premium', duration:'60 วัน', price: 59, details:'ไม่มีโฆษณาคั่น', imageUrl: ''}
+                        {id:'1', name:'Netflix Premium', duration:'30 วัน', price: 99, details:'จอส่วนตัว 4K\nใช้งานได้ทันที', imageUrl: '', stockCount: 5, stockText: 'A\nB\nC\nD\nE'},
+                        {id:'2', name:'Spotify Premium', duration:'60 วัน', price: 59, details:'ไม่มีโฆษณาคั่น', imageUrl: '', stockCount: 0, stockText: ''}
                     ];
                     renderProducts();
                     document.getElementById('loadingOverlay').classList.add('hidden');
@@ -315,8 +322,7 @@
                 }
 
                 const res = await fetch(GAS_WEB_APP_URL, {
-                    method: 'POST',
-                    body: JSON.stringify({ action: 'GET_DATA' })
+                    method: 'POST', body: JSON.stringify({ action: 'GET_DATA' })
                 });
                 const data = await res.json();
                 
@@ -353,34 +359,63 @@
             }
 
             productsData.forEach(p => {
-                const imgHtml = p.imageUrl ? `<img src="${p.imageUrl}" class="w-full h-40 object-cover rounded-xl mb-4 shadow-sm" alt="Product">` : ``;
+                const isOut = p.stockCount === 0;
+                
+                // รูปภาพปรับสัดส่วน 1:1 ขนาด 500x500 ด้วยคลาส aspect-square
+                const imgHtml = p.imageUrl ? `<img src="${p.imageUrl}" class="w-full aspect-square object-cover rounded-xl mb-4 shadow-sm" alt="Product">` : ``;
+                
+                const stockBadge = isOut 
+                    ? `<span class="bg-red-100 text-red-600 text-[10px] px-2 py-0.5 rounded font-bold whitespace-nowrap"><i class="fas fa-times-circle"></i> สินค้าหมด</span>` 
+                    : `<span class="bg-green-100 text-green-700 text-[10px] px-2 py-0.5 rounded font-bold whitespace-nowrap"><i class="fas fa-check-circle"></i> พร้อมส่ง ${p.stockCount}</span>`;
+                
+                const btnHtml = isOut 
+                    ? `<button disabled class="bg-slate-200 text-slate-400 px-4 py-2 rounded-xl text-sm font-medium cursor-not-allowed">หมด</button>`
+                    : `<button onclick="addToCart('${p.id}')" class="bg-slate-800 text-white px-4 py-2 rounded-xl text-sm font-medium hover:bg-slate-900 transition flex items-center gap-2"><i class="fas fa-plus"></i> เพิ่ม</button>`;
+
                 const card = document.createElement('div');
                 card.className = 'laser-card p-5 flex flex-col justify-between';
                 card.innerHTML = `
                     <div>
                         ${imgHtml}
                         <div class="flex justify-between items-start mb-3">
-                            <h3 class="font-bold text-lg text-slate-800">${p.name}</h3>
-                            <span class="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded-md font-medium whitespace-nowrap ml-2">${p.duration}</span>
+                            <div>
+                                <h3 class="font-bold text-lg text-slate-800 leading-tight">${p.name}</h3>
+                                <div class="flex items-center gap-2 mt-1.5">
+                                    <span class="bg-blue-100 text-blue-700 text-[10px] px-2 py-0.5 rounded font-medium whitespace-nowrap">${p.duration}</span>
+                                    ${stockBadge}
+                                </div>
+                            </div>
                         </div>
-                        <p class="text-sm text-slate-500 mb-4 line-clamp-2 cursor-pointer" onclick="alert('${p.details}')"><i class="fas fa-info-circle mr-1"></i> ${p.details}</p>
+                        <p class="text-sm text-slate-500 mb-4 line-clamp-2 cursor-pointer mt-2 hover:text-blue-600 transition" onclick="showProductDetails('${p.id}')"><i class="fas fa-info-circle mr-1"></i> ดูรายละเอียดเพิ่มเติม</p>
                     </div>
                     <div class="flex items-center justify-between mt-auto pt-4 border-t border-slate-100">
                         <span class="text-2xl font-bold text-slate-800">${p.price} ฿</span>
-                        <button onclick="addToCart('${p.id}')" class="bg-slate-800 text-white px-4 py-2 rounded-xl text-sm font-medium hover:bg-slate-900 transition flex items-center gap-2">
-                            <i class="fas fa-plus"></i> เพิ่ม
-                        </button>
+                        ${btnHtml}
                     </div>
                 `;
                 grid.appendChild(card);
             });
         }
 
+        // ฟังก์ชันใหม่สำหรับการแสดงรายละเอียดสินค้า
+        function showProductDetails(id) {
+            const product = productsData.find(p => p.id === id);
+            if(product) {
+                alert("รายละเอียด " + product.name + " :\n\n" + product.details);
+            }
+        }
+
         function addToCart(id) {
             const product = productsData.find(p => p.id === id);
+            if(product.stockCount < 1) return alert("สินค้านี้หมดชั่วคราว");
+
             const exist = cart.find(item => item.id === id);
-            if (exist) { exist.qty += 1; } 
-            else { cart.push({ ...product, qty: 1 }); }
+            if (exist) { 
+                if(exist.qty >= product.stockCount) return alert(`เพิ่มได้สูงสุด ${product.stockCount} ชิ้นตามสต๊อกที่มี`);
+                exist.qty += 1; 
+            } else { 
+                cart.push({ ...product, qty: 1 }); 
+            }
             
             const cartIcon = document.querySelector('.fa-shopping-cart').parentElement;
             cartIcon.classList.add('scale-125');
@@ -445,7 +480,7 @@
         
         dropZone.addEventListener('click', () => slipInput.click());
         dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('drag-over'); });
-        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'); });
         dropZone.addEventListener('drop', (e) => {
             e.preventDefault(); dropZone.classList.remove('drag-over');
             if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
@@ -471,12 +506,11 @@
 
             const email = document.getElementById('customerEmail').value;
             const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
-            const itemsStr = cart.map(i => `${i.name} (x${i.qty})`).join('\n');
 
             isProcessing = true;
             document.getElementById('loadingOverlay').classList.remove('hidden');
             
-            const payload = { email: email, items: itemsStr, total: total, slipBase64: slipBase64Str };
+            const payload = { email: email, cart: cart, total: total, slipBase64: slipBase64Str };
 
             try {
                 if(GAS_WEB_APP_URL === 'YOUR_GOOGLE_WEB_APP_URL_HERE') throw new Error('Demo Mode');
@@ -485,18 +519,18 @@
                     body: JSON.stringify({ action: 'CHECKOUT', payload: payload })
                 });
                 const data = await res.json();
-                if(data.status === 'success') { showReceipt(data.data.orderId, email, itemsStr, total); } 
+                if(data.status === 'success') { showReceipt(data.data.orderId, email, total); } 
                 else { alert('Error: ' + data.message); }
             } catch (error) {
                 console.warn(error);
-                showReceipt('ORD-' + new Date().getTime(), email, itemsStr, total);
+                showReceipt('ORD-' + new Date().getTime(), email, total);
             } finally {
                 isProcessing = false;
                 document.getElementById('loadingOverlay').classList.add('hidden');
             }
         });
 
-        function showReceipt(orderId, email, itemsStr, total) {
+        function showReceipt(orderId, email, total) {
             closeModal('checkoutModal');
             document.getElementById('receiptModal').classList.remove('hidden');
             document.getElementById('receiptModal').classList.add('flex');
@@ -565,13 +599,14 @@
             list.innerHTML = '';
             productsData.forEach(p => {
                 const thumbHtml = p.imageUrl ? `<img src="${p.imageUrl}" class="w-12 h-12 object-cover rounded-lg border border-slate-200">` : `<div class="w-12 h-12 bg-slate-100 rounded-lg flex items-center justify-center text-slate-400"><i class="fas fa-box"></i></div>`;
+                const stockColor = p.stockCount === 0 ? 'text-red-500' : 'text-green-600';
                 list.innerHTML += `
                     <div class="flex justify-between items-center bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
                         <div class="flex items-center gap-3 flex-1 pr-4 overflow-hidden">
                             ${thumbHtml}
                             <div class="truncate">
                                 <h4 class="font-bold text-slate-800 truncate">${p.name}</h4>
-                                <p class="text-sm text-slate-500">${p.price} ฿ | ${p.duration}</p>
+                                <p class="text-sm text-slate-500">${p.price} ฿ | สต๊อก: <span class="font-bold ${stockColor}">${p.stockCount}</span></p>
                             </div>
                         </div>
                         <div class="flex gap-2">
@@ -594,6 +629,7 @@
                 document.getElementById('adminProdDur').value = p.duration;
                 document.getElementById('adminProdPrice').value = p.price;
                 document.getElementById('adminProdDesc').value = p.details;
+                document.getElementById('adminProdStock').value = p.stockText || '';
             } else {
                 document.getElementById('productFormTitle').innerText = "เพิ่มสินค้าใหม่";
                 document.getElementById('adminProdId').value = "";
@@ -602,6 +638,7 @@
                 document.getElementById('adminProdDur').value = "";
                 document.getElementById('adminProdPrice').value = "";
                 document.getElementById('adminProdDesc').value = "";
+                document.getElementById('adminProdStock').value = "";
             }
         }
 
@@ -612,7 +649,8 @@
                 name: document.getElementById('adminProdName').value,
                 duration: document.getElementById('adminProdDur').value,
                 price: document.getElementById('adminProdPrice').value,
-                details: document.getElementById('adminProdDesc').value
+                details: document.getElementById('adminProdDesc').value,
+                stockText: document.getElementById('adminProdStock').value
             };
             
             if(!p.name || !p.price) return alert("กรุณากรอกชื่อและราคาให้ครบถ้วน");
