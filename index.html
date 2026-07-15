@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ร้านค้าออมสินมหาเฮง (คิงแอดส์)</title>
+    <title>SNI sindy - แอปพรีเมียม</title>
     
     <!-- PWA / Home Screen Meta -->
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -18,13 +18,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     
     <style>
-        /* Google Fonts & Base CSS */
         @import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap');
         body { font-family: 'Prompt', sans-serif; background-color: #f8fafc; }
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
 
-        /* Laser Card Animation */
         .laser-card {
             position: relative; background: #fff; border-radius: 1rem;
             z-index: 1; overflow: hidden; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
@@ -41,22 +39,19 @@
         }
         @keyframes rotate { 100% { transform: rotate(360deg); } }
 
-        /* Loader */
         .loader {
             border: 4px solid #f3f3f3; border-top: 4px solid #3b82f6;
             border-radius: 50%; width: 40px; height: 40px;
             animation: spin 1s linear infinite;
         }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-        /* Drag & Drop */
         .drag-over { background-color: #eff6ff !important; border-color: #3b82f6 !important; }
     </style>
 </head>
 <body class="text-slate-800 antialiased selection:bg-blue-200">
 
     <!-- Global Loading Overlay -->
-    <div id="loadingOverlay" class="fixed inset-0 bg-white/90 z-50 flex flex-col items-center justify-center">
+    <div id="loadingOverlay" class="fixed inset-0 bg-white/90 z-[100] flex flex-col items-center justify-center">
         <div class="loader mb-4"></div>
         <p class="text-slate-500 font-medium tracking-wide">กำลังประมวลผล...</p>
     </div>
@@ -66,11 +61,6 @@
         <i class="fas fa-compass text-6xl text-blue-500 mb-6"></i>
         <h2 class="text-2xl font-bold mb-2">กรุณาเปิดในเบราว์เซอร์</h2>
         <p class="text-slate-500 mb-6">เพื่อให้ระบบทำงานได้สมบูรณ์และสามารถเพิ่มแอปลงหน้าจอโฮมได้ โปรดเปิดลิงก์นี้ด้วย Safari หรือ Chrome</p>
-        <div class="text-left bg-slate-50 p-4 rounded-xl text-sm text-slate-600 w-full max-w-sm">
-            <p class="font-bold mb-2"><i class="fas fa-info-circle mr-2"></i>วิธีเพิ่มลงหน้าจอโฮม:</p>
-            <p>1. แตะไอคอน <b>แชร์</b> (Safari) หรือ <b>เมนู</b> (Chrome)</p>
-            <p>2. เลือก <b>เพิ่มลงหน้าจอโฮม (Add to Home Screen)</b></p>
-        </div>
     </div>
 
     <!-- Popup Modal -->
@@ -78,7 +68,7 @@
         <div class="bg-white rounded-2xl w-full max-w-md p-6 text-center shadow-2xl transform scale-95 transition-all">
             <img id="popupImg" src="" class="w-full rounded-xl mb-4 hidden" alt="Popup Image">
             <h3 id="popupTitle" class="text-xl font-bold mb-2"></h3>
-            <p id="popupMsg" class="text-slate-600 mb-6 text-sm"></p>
+            <p id="popupMsg" class="text-slate-600 mb-6 text-sm whitespace-pre-wrap"></p>
             <button onclick="closeModal('popupModal')" class="w-full bg-blue-600 text-white py-3 rounded-xl font-medium hover:bg-blue-700 transition">รับทราบ</button>
         </div>
     </div>
@@ -198,9 +188,95 @@
         </div>
     </div>
 
-    <!-- Admin Button -->
+    <!-- ========================================== -->
+    <!-- ADMIN PANEL MODAL (ระบบหลังบ้าน) -->
+    <!-- ========================================== -->
+    <div id="adminModal" class="fixed inset-0 bg-slate-50 z-[70] hidden overflow-y-auto">
+        <div class="max-w-3xl mx-auto p-4 py-8 relative">
+            <button onclick="closeAdmin()" class="absolute top-4 left-4 text-slate-500 hover:text-slate-800 p-2"><i class="fas fa-arrow-left text-xl"></i></button>
+            <h2 class="text-2xl font-bold text-center mb-6 mt-4"><i class="fas fa-cogs mr-2 text-slate-400"></i>ระบบจัดการหลังบ้าน</h2>
+            
+            <!-- Tabs -->
+            <div class="flex gap-2 mb-6 bg-white p-1 rounded-xl shadow-sm border border-slate-100">
+                <button onclick="switchAdminTab('products')" id="tab-products" class="flex-1 py-3 bg-slate-800 text-white rounded-lg font-bold transition">จัดการสินค้า</button>
+                <button onclick="switchAdminTab('popup')" id="tab-popup" class="flex-1 py-3 bg-transparent text-slate-600 rounded-lg font-bold hover:bg-slate-100 transition">ตั้งค่า Popup</button>
+            </div>
+
+            <!-- Products Tab -->
+            <div id="admin-products-tab" class="space-y-4">
+                <button onclick="openProductForm()" class="w-full bg-blue-600 text-white py-4 rounded-xl font-bold hover:bg-blue-700 transition shadow-sm border border-blue-700">
+                    <i class="fas fa-plus-circle mr-2"></i> เพิ่มสินค้าใหม่
+                </button>
+                <div id="adminProductList" class="space-y-3 mt-4">
+                    <!-- โหลดรายการสินค้าหลังบ้าน -->
+                </div>
+            </div>
+
+            <!-- Popup Tab -->
+            <div id="admin-popup-tab" class="hidden space-y-4 bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-2">สถานะ Popup</label>
+                    <select id="adminPopupStatus" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-blue-500">
+                        <option value="ON">เปิดใช้งาน (ON)</option>
+                        <option value="OFF">ปิด (OFF)</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-2">หัวข้อ (Title)</label>
+                    <input type="text" id="adminPopupTitle" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-blue-500" placeholder="เช่น ยินดีต้อนรับ!">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-2">ข้อความ (Message)</label>
+                    <textarea id="adminPopupMsg" rows="4" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-blue-500" placeholder="รายละเอียดประกาศ..."></textarea>
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-2">ลิงก์รูปภาพ (เว้นว่างได้)</label>
+                    <input type="text" id="adminPopupImg" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-blue-500" placeholder="https://...">
+                </div>
+                <button onclick="saveAdminPopup()" class="w-full bg-green-600 text-white py-3 mt-2 rounded-xl font-bold hover:bg-green-700 transition shadow-sm">
+                    <i class="fas fa-save mr-2"></i> บันทึกการตั้งค่า Popup
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Form Sub-Modal -->
+    <div id="productFormModal" class="fixed inset-0 bg-black/60 z-[80] hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl w-full max-w-md p-6 shadow-2xl relative">
+            <button onclick="closeModal('productFormModal')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600"><i class="fas fa-times text-xl"></i></button>
+            <h3 id="productFormTitle" class="text-xl font-bold mb-4">เพิ่มสินค้า</h3>
+            <input type="hidden" id="adminProdId">
+            
+            <div class="space-y-3">
+                <div>
+                    <label class="text-sm font-medium text-slate-700">ชื่อสินค้า</label>
+                    <input type="text" id="adminProdName" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-blue-500">
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="text-sm font-medium text-slate-700">ระยะเวลา</label>
+                        <input type="text" id="adminProdDur" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-blue-500" placeholder="เช่น 30 วัน">
+                    </div>
+                    <div>
+                        <label class="text-sm font-medium text-slate-700">ราคา (บาท)</label>
+                        <input type="number" id="adminProdPrice" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-blue-500">
+                    </div>
+                </div>
+                <div>
+                    <label class="text-sm font-medium text-slate-700">รายละเอียดสินค้า</label>
+                    <textarea id="adminProdDesc" rows="3" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-blue-500"></textarea>
+                </div>
+                <button onclick="saveAdminProduct()" class="w-full bg-slate-800 text-white py-3 rounded-xl font-bold hover:bg-slate-900 transition mt-2">
+                    บันทึกข้อมูลสินค้า
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- ========================================== -->
+
+    <!-- Admin Button Link -->
     <footer class="mt-12 py-6 text-center text-slate-400 text-sm border-t">
-        <p>&copy; 2026 ออมสินมหาเฮง. All rights reserved. <span onclick="openAdmin()" class="cursor-pointer opacity-20"><i class="fas fa-cog"></i></span></p>
+        <p>&copy; 2026 SNI sindy. All rights reserved. <span onclick="openAdmin()" class="cursor-pointer opacity-20 hover:opacity-100 transition"><i class="fas fa-cog"></i></span></p>
     </footer>
 
     <!-- Script Logic -->
@@ -211,6 +287,7 @@
         const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwTKI1d2NrkCpDzZs-z6_FEPBlKkdZnHAuKiLYTmbAGDrnN0vahlg5SqPpxWjOjwxqWJg/exec';
         
         let productsData = [];
+        let popupDataCache = null; 
         let cart = [];
         let isProcessing = false;
         let slipBase64Str = null;
@@ -230,11 +307,11 @@
 
         async function fetchData() {
             try {
-                if(GAS_WEB_APP_URL === 'https://script.google.com/macros/s/AKfycbwTKI1d2NrkCpDzZs-z6_FEPBlKkdZnHAuKiLYTmbAGDrnN0vahlg5SqPpxWjOjwxqWJg/exec') {
-                    console.warn("GAS URL not set, using demo data.");
+                if(GAS_WEB_APP_URL === 'YOUR_GOOGLE_WEB_APP_URL_HERE') {
+                    console.warn("Demo Data Loaded.");
                     productsData = [
-                        {id:'1', name:'Netflix Premium', duration:'30 วัน', price: 99, details:'จอส่วนตัว 4K รับประกันตลอดการใช้งาน'},
-                        {id:'2', name:'Spotify Premium', duration:'60 วัน', price: 59, details:'ไม่มีโฆษณาคั่น ฟังออฟไลน์ได้'}
+                        {id:'1', name:'Netflix Premium', duration:'30 วัน', price: 99, details:'จอส่วนตัว 4K'},
+                        {id:'2', name:'Spotify Premium', duration:'60 วัน', price: 59, details:'ไม่มีโฆษณาคั่น'}
                     ];
                     renderProducts();
                     document.getElementById('loadingOverlay').classList.add('hidden');
@@ -249,13 +326,16 @@
                 
                 if(data.status === 'success') {
                     productsData = data.data.products;
+                    popupDataCache = data.data.popup;
+                    
                     renderProducts();
                     
-                    if(data.data.popup && data.data.popup.status === 'ON') {
-                        document.getElementById('popupTitle').innerText = data.data.popup.title;
-                        document.getElementById('popupMsg').innerText = data.data.popup.message;
-                        if(data.data.popup.imageUrl) {
-                            document.getElementById('popupImg').src = data.data.popup.imageUrl;
+                    // แสดง Popup ถ้าเปิดใช้งาน
+                    if(popupDataCache && popupDataCache.status === 'ON') {
+                        document.getElementById('popupTitle').innerText = popupDataCache.title;
+                        document.getElementById('popupMsg').innerText = popupDataCache.message;
+                        if(popupDataCache.imageUrl) {
+                            document.getElementById('popupImg').src = popupDataCache.imageUrl;
                             document.getElementById('popupImg').classList.remove('hidden');
                         }
                         document.getElementById('popupModal').classList.remove('hidden');
@@ -286,7 +366,7 @@
                             <h3 class="font-bold text-lg text-slate-800">${p.name}</h3>
                             <span class="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded-md font-medium">${p.duration}</span>
                         </div>
-                        <p class="text-sm text-slate-500 mb-4 line-clamp-2" onclick="alert('${p.details}')" style="cursor:pointer;"><i class="fas fa-info-circle mr-1"></i>${p.details}</p>
+                        <p class="text-sm text-slate-500 mb-4 line-clamp-2 cursor-pointer" onclick="alert('${p.details}')"><i class="fas fa-info-circle mr-1"></i>${p.details}</p>
                     </div>
                     <div class="flex items-center justify-between mt-auto pt-4 border-t border-slate-100">
                         <span class="text-2xl font-bold text-slate-800">${p.price} ฿</span>
@@ -352,21 +432,16 @@
             document.getElementById('cartModal').classList.remove('hidden');
             setTimeout(() => document.getElementById('cartContainer').classList.remove('translate-x-full'), 10);
         }
-
         function closeCart() {
             document.getElementById('cartContainer').classList.add('translate-x-full');
             setTimeout(() => document.getElementById('cartModal').classList.add('hidden'), 300);
         }
-
         function openCheckout() {
             if(cart.length === 0) return;
             closeCart();
             document.getElementById('checkoutModal').classList.remove('hidden');
         }
-
-        function closeModal(id) {
-            document.getElementById(id).classList.add('hidden');
-        }
+        function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
 
         const dropZone = document.getElementById('dropZone');
         const slipInput = document.getElementById('slipInput');
@@ -378,9 +453,7 @@
             e.preventDefault(); dropZone.classList.remove('drag-over');
             if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
         });
-        slipInput.addEventListener('change', (e) => {
-            if (e.target.files.length) handleFile(e.target.files[0]);
-        });
+        slipInput.addEventListener('change', (e) => { if (e.target.files.length) handleFile(e.target.files[0]); });
 
         function handleFile(file) {
             if (!file.type.match('image.*')) return alert('กรุณาอัปโหลดไฟล์รูปภาพเท่านั้น');
@@ -406,27 +479,17 @@
             isProcessing = true;
             document.getElementById('loadingOverlay').classList.remove('hidden');
             
-            const payload = {
-                email: email,
-                items: itemsStr,
-                total: total,
-                slipBase64: slipBase64Str
-            };
+            const payload = { email: email, items: itemsStr, total: total, slipBase64: slipBase64Str };
 
             try {
-                if(GAS_WEB_APP_URL === 'https://script.google.com/macros/s/AKfycbwTKI1d2NrkCpDzZs-z6_FEPBlKkdZnHAuKiLYTmbAGDrnN0vahlg5SqPpxWjOjwxqWJg/exec') throw new Error('Demo Mode');
-                
+                if(GAS_WEB_APP_URL === 'YOUR_GOOGLE_WEB_APP_URL_HERE') throw new Error('Demo Mode');
                 const res = await fetch(GAS_WEB_APP_URL, {
                     method: 'POST',
                     body: JSON.stringify({ action: 'CHECKOUT', payload: payload })
                 });
                 const data = await res.json();
-                
-                if(data.status === 'success') {
-                    showReceipt(data.data.orderId, email, itemsStr, total);
-                } else {
-                    alert('Error: ' + data.message);
-                }
+                if(data.status === 'success') { showReceipt(data.data.orderId, email, itemsStr, total); } 
+                else { alert('Error: ' + data.message); }
             } catch (error) {
                 console.warn(error);
                 showReceipt('ORD-' + new Date().getTime(), email, itemsStr, total);
@@ -449,12 +512,9 @@
             
             const itemsUl = document.getElementById('rcptItems');
             itemsUl.innerHTML = '';
-            cart.forEach(i => {
-                itemsUl.innerHTML += `<li class="flex justify-between text-slate-700"><span>- ${i.name}</span><span>x${i.qty}</span></li>`;
-            });
+            cart.forEach(i => { itemsUl.innerHTML += `<li class="flex justify-between text-slate-700"><span>- ${i.name}</span><span>x${i.qty}</span></li>`; });
             
-            cart = [];
-            updateCartUI();
+            cart = []; updateCartUI();
         }
 
         function downloadReceipt() {
@@ -467,9 +527,149 @@
             });
         }
 
+        // ==========================================
+        // ADMIN PANEL JAVASCRIPT
+        // ==========================================
         function openAdmin() {
-            alert("สำหรับการเพิ่ม ลบ แก้ไข ข้อมูลสินค้า แนะนำให้ปรับแต่งผ่าน Google Sheet โดยตรงครับ จะมีความเสถียรและปลอดภัยกว่า");
-            window.open('https://docs.google.com/spreadsheets/d/17y4Wlt2X29e6l23lJM87c74kzNK-4hwx75V-Q5w7tOk', '_blank');
+            const pwd = prompt("กรุณาใส่รหัสผ่านเพื่อเข้าสู่ระบบหลังบ้าน:");
+            if(pwd === "0000s") {
+                document.getElementById('adminModal').classList.remove('hidden');
+                renderAdminProducts();
+                if(popupDataCache) {
+                    document.getElementById('adminPopupStatus').value = popupDataCache.status || 'OFF';
+                    document.getElementById('adminPopupTitle').value = popupDataCache.title || '';
+                    document.getElementById('adminPopupMsg').value = popupDataCache.message || '';
+                    document.getElementById('adminPopupImg').value = popupDataCache.imageUrl || '';
+                }
+            } else if (pwd !== null) {
+                alert("รหัสผ่านไม่ถูกต้อง");
+            }
+        }
+
+        function closeAdmin() {
+            document.getElementById('adminModal').classList.add('hidden');
+        }
+
+        function switchAdminTab(tab) {
+            const tProd = document.getElementById('tab-products');
+            const tPopup = document.getElementById('tab-popup');
+            const cProd = document.getElementById('admin-products-tab');
+            const cPopup = document.getElementById('admin-popup-tab');
+
+            if(tab === 'products') {
+                cProd.classList.remove('hidden'); cPopup.classList.add('hidden');
+                tProd.className = "flex-1 py-3 bg-slate-800 text-white rounded-lg font-bold transition";
+                tPopup.className = "flex-1 py-3 bg-transparent text-slate-600 rounded-lg font-bold hover:bg-slate-100 transition";
+            } else {
+                cPopup.classList.remove('hidden'); cProd.classList.add('hidden');
+                tPopup.className = "flex-1 py-3 bg-slate-800 text-white rounded-lg font-bold transition";
+                tProd.className = "flex-1 py-3 bg-transparent text-slate-600 rounded-lg font-bold hover:bg-slate-100 transition";
+            }
+        }
+
+        function renderAdminProducts() {
+            const list = document.getElementById('adminProductList');
+            list.innerHTML = '';
+            productsData.forEach(p => {
+                list.innerHTML += `
+                    <div class="flex justify-between items-center bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                        <div class="flex-1 pr-4">
+                            <h4 class="font-bold text-slate-800 truncate">${p.name}</h4>
+                            <p class="text-sm text-slate-500">${p.price} ฿ | ${p.duration}</p>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="openProductForm('${p.id}')" class="bg-yellow-50 text-yellow-600 p-3 rounded-lg hover:bg-yellow-100 transition"><i class="fas fa-edit"></i></button>
+                            <button onclick="deleteProduct('${p.id}')" class="bg-red-50 text-red-600 p-3 rounded-lg hover:bg-red-100 transition"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function openProductForm(id = null) {
+            document.getElementById('productFormModal').classList.remove('hidden');
+            if(id) {
+                const p = productsData.find(x => x.id === id);
+                document.getElementById('productFormTitle').innerText = "แก้ไขสินค้า";
+                document.getElementById('adminProdId').value = p.id;
+                document.getElementById('adminProdName').value = p.name;
+                document.getElementById('adminProdDur').value = p.duration;
+                document.getElementById('adminProdPrice').value = p.price;
+                document.getElementById('adminProdDesc').value = p.details;
+            } else {
+                document.getElementById('productFormTitle').innerText = "เพิ่มสินค้าใหม่";
+                document.getElementById('adminProdId').value = "";
+                document.getElementById('adminProdName').value = "";
+                document.getElementById('adminProdDur').value = "";
+                document.getElementById('adminProdPrice').value = "";
+                document.getElementById('adminProdDesc').value = "";
+            }
+        }
+
+        async function saveAdminProduct() {
+            const p = {
+                id: document.getElementById('adminProdId').value,
+                name: document.getElementById('adminProdName').value,
+                duration: document.getElementById('adminProdDur').value,
+                price: document.getElementById('adminProdPrice').value,
+                details: document.getElementById('adminProdDesc').value
+            };
+            
+            if(!p.name || !p.price) return alert("กรุณากรอกชื่อและราคาให้ครบถ้วน");
+
+            document.getElementById('loadingOverlay').classList.remove('hidden');
+            try {
+                if(GAS_WEB_APP_URL === 'YOUR_GOOGLE_WEB_APP_URL_HERE') throw new Error('โหมดจำลอง ไม่สามารถบันทึกได้');
+                await fetch(GAS_WEB_APP_URL, {
+                    method: 'POST', body: JSON.stringify({ action: 'ADMIN_SAVE_PRODUCT', payload: p })
+                });
+                closeModal('productFormModal');
+                await fetchData(); // โหลดข้อมูลใหม่หลังจากเซฟ
+                renderAdminProducts();
+            } catch (e) {
+                alert(e);
+            } finally {
+                document.getElementById('loadingOverlay').classList.add('hidden');
+            }
+        }
+
+        async function deleteProduct(id) {
+            if(!confirm("ยืนยันการลบสินค้านี้?")) return;
+            document.getElementById('loadingOverlay').classList.remove('hidden');
+            try {
+                if(GAS_WEB_APP_URL === 'YOUR_GOOGLE_WEB_APP_URL_HERE') throw new Error('โหมดจำลอง ไม่สามารถลบได้');
+                await fetch(GAS_WEB_APP_URL, {
+                    method: 'POST', body: JSON.stringify({ action: 'ADMIN_DELETE_PRODUCT', payload: {id: id} })
+                });
+                await fetchData();
+                renderAdminProducts();
+            } catch (e) {
+                alert(e);
+            } finally {
+                document.getElementById('loadingOverlay').classList.add('hidden');
+            }
+        }
+
+        async function saveAdminPopup() {
+            const p = {
+                status: document.getElementById('adminPopupStatus').value,
+                title: document.getElementById('adminPopupTitle').value,
+                message: document.getElementById('adminPopupMsg').value,
+                imageUrl: document.getElementById('adminPopupImg').value
+            };
+            document.getElementById('loadingOverlay').classList.remove('hidden');
+            try {
+                if(GAS_WEB_APP_URL === 'YOUR_GOOGLE_WEB_APP_URL_HERE') throw new Error('โหมดจำลอง ไม่สามารถบันทึกได้');
+                await fetch(GAS_WEB_APP_URL, {
+                    method: 'POST', body: JSON.stringify({ action: 'ADMIN_SAVE_POPUP', payload: p })
+                });
+                alert("บันทึกการตั้งค่า Popup เรียบร้อย");
+                await fetchData();
+            } catch(e) {
+                alert(e);
+            } finally {
+                document.getElementById('loadingOverlay').classList.add('hidden');
+            }
         }
     </script>
 </body>
