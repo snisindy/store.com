@@ -208,7 +208,7 @@
         // ==========================================
         // ⚠️ นำ Web App URL ของคุณมาใส่ตรงนี้
         // ==========================================
-        const GAS_WEB_APP_URL = 'YOUR_GOOGLE_WEB_APP_URL_HERE';
+        const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwTKI1d2NrkCpDzZs-z6_FEPBlKkdZnHAuKiLYTmbAGDrnN0vahlg5SqPpxWjOjwxqWJg/exec';
         
         let productsData = [];
         let cart = [];
@@ -414,7 +414,7 @@
             };
 
             try {
-                if(GAS_WEB_APP_URL === 'YOUR_GOOGLE_WEB_APP_URL_HERE') throw new Error('Demo Mode');
+                if(GAS_WEB_APP_URL === 'https://script.google.com/macros/s/AKfycbwTKI1d2NrkCpDzZs-z6_FEPBlKkdZnHAuKiLYTmbAGDrnN0vahlg5SqPpxWjOjwxqWJg/exec') throw new Error('Demo Mode');
                 
                 const res = await fetch(GAS_WEB_APP_URL, {
                     method: 'POST',
