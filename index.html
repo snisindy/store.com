@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SNI sindy - แอปพรีเมียม</title>
+    <title>SNI sindy แอปพรีเมียม</title>
     
     <!-- PWA / Home Screen Meta -->
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -77,7 +77,7 @@
     <nav class="sticky top-0 bg-white/80 backdrop-blur-md shadow-sm z-30 px-4 py-3 flex justify-between items-center">
         <div class="flex items-center gap-3">
             <img src="https://s.imgz.io/2026/07/15/DA0D2171-669F-4863-B0AD-A3084C2E881A787a7e4aae484696.png" class="h-10 w-10 rounded-xl shadow-sm" alt="Logo">
-            <span class="font-bold text-lg hidden sm:block">SNI sindy</span>
+            <span class="font-bold text-lg hidden sm:block">SNI sindy แอปพรีเมียม</span>
         </div>
         <button onclick="openCart()" class="relative p-2 text-slate-600 hover:bg-slate-100 rounded-full transition">
             <i class="fas fa-shopping-cart text-xl"></i>
@@ -100,7 +100,7 @@
     <div id="cartModal" class="fixed inset-0 bg-black/40 z-40 hidden flex justify-end">
         <div class="bg-white w-full max-w-md h-full shadow-2xl flex flex-col transform translate-x-full transition-transform duration-300" id="cartContainer">
             <div class="p-4 border-b flex justify-between items-center bg-slate-50">
-                <h3 class="font-bold text-lg"><i class="fas fa-shopping-cart mr-2 text-blue-500"></i>ตะกร้าสินค้า</h3>
+                <h3 class="font-bold text-lg"><i class="fas fa-shopping-cart mr-2 text-blue-500"></i> ตะกร้าสินค้า</h3>
                 <button onclick="closeCart()" class="text-slate-400 hover:text-slate-700 text-xl"><i class="fas fa-times"></i></button>
             </div>
             <div id="cartItems" class="flex-1 overflow-y-auto p-4 space-y-3">
@@ -188,31 +188,24 @@
         </div>
     </div>
 
-    <!-- ========================================== -->
-    <!-- ADMIN PANEL MODAL (ระบบหลังบ้าน) -->
-    <!-- ========================================== -->
+    <!-- ADMIN PANEL MODAL -->
     <div id="adminModal" class="fixed inset-0 bg-slate-50 z-[70] hidden overflow-y-auto">
         <div class="max-w-3xl mx-auto p-4 py-8 relative">
             <button onclick="closeAdmin()" class="absolute top-4 left-4 text-slate-500 hover:text-slate-800 p-2"><i class="fas fa-arrow-left text-xl"></i></button>
             <h2 class="text-2xl font-bold text-center mb-6 mt-4"><i class="fas fa-cogs mr-2 text-slate-400"></i>ระบบจัดการหลังบ้าน</h2>
             
-            <!-- Tabs -->
             <div class="flex gap-2 mb-6 bg-white p-1 rounded-xl shadow-sm border border-slate-100">
                 <button onclick="switchAdminTab('products')" id="tab-products" class="flex-1 py-3 bg-slate-800 text-white rounded-lg font-bold transition">จัดการสินค้า</button>
                 <button onclick="switchAdminTab('popup')" id="tab-popup" class="flex-1 py-3 bg-transparent text-slate-600 rounded-lg font-bold hover:bg-slate-100 transition">ตั้งค่า Popup</button>
             </div>
 
-            <!-- Products Tab -->
             <div id="admin-products-tab" class="space-y-4">
                 <button onclick="openProductForm()" class="w-full bg-blue-600 text-white py-4 rounded-xl font-bold hover:bg-blue-700 transition shadow-sm border border-blue-700">
                     <i class="fas fa-plus-circle mr-2"></i> เพิ่มสินค้าใหม่
                 </button>
-                <div id="adminProductList" class="space-y-3 mt-4">
-                    <!-- โหลดรายการสินค้าหลังบ้าน -->
-                </div>
+                <div id="adminProductList" class="space-y-3 mt-4"></div>
             </div>
 
-            <!-- Popup Tab -->
             <div id="admin-popup-tab" class="hidden space-y-4 bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
                 <div>
                     <label class="block text-sm font-bold text-slate-700 mb-2">สถานะ Popup</label>
@@ -249,6 +242,10 @@
             
             <div class="space-y-3">
                 <div>
+                    <label class="text-sm font-medium text-slate-700">ลิงก์รูปภาพสินค้า (URL)</label>
+                    <input type="text" id="adminProdImg" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-blue-500" placeholder="https://...">
+                </div>
+                <div>
                     <label class="text-sm font-medium text-slate-700">ชื่อสินค้า</label>
                     <input type="text" id="adminProdName" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-blue-500">
                 </div>
@@ -272,7 +269,6 @@
             </div>
         </div>
     </div>
-    <!-- ========================================== -->
 
     <!-- Admin Button Link -->
     <footer class="mt-12 py-6 text-center text-slate-400 text-sm border-t">
@@ -310,8 +306,8 @@
                 if(GAS_WEB_APP_URL === 'YOUR_GOOGLE_WEB_APP_URL_HERE') {
                     console.warn("Demo Data Loaded.");
                     productsData = [
-                        {id:'1', name:'Netflix Premium', duration:'30 วัน', price: 99, details:'จอส่วนตัว 4K'},
-                        {id:'2', name:'Spotify Premium', duration:'60 วัน', price: 59, details:'ไม่มีโฆษณาคั่น'}
+                        {id:'1', name:'Netflix Premium', duration:'30 วัน', price: 99, details:'จอส่วนตัว 4K', imageUrl: ''},
+                        {id:'2', name:'Spotify Premium', duration:'60 วัน', price: 59, details:'ไม่มีโฆษณาคั่น', imageUrl: ''}
                     ];
                     renderProducts();
                     document.getElementById('loadingOverlay').classList.add('hidden');
@@ -330,7 +326,6 @@
                     
                     renderProducts();
                     
-                    // แสดง Popup ถ้าเปิดใช้งาน
                     if(popupDataCache && popupDataCache.status === 'ON') {
                         document.getElementById('popupTitle').innerText = popupDataCache.title;
                         document.getElementById('popupMsg').innerText = popupDataCache.message;
@@ -358,15 +353,17 @@
             }
 
             productsData.forEach(p => {
+                const imgHtml = p.imageUrl ? `<img src="${p.imageUrl}" class="w-full h-40 object-cover rounded-xl mb-4 shadow-sm" alt="Product">` : ``;
                 const card = document.createElement('div');
                 card.className = 'laser-card p-5 flex flex-col justify-between';
                 card.innerHTML = `
                     <div>
+                        ${imgHtml}
                         <div class="flex justify-between items-start mb-3">
                             <h3 class="font-bold text-lg text-slate-800">${p.name}</h3>
-                            <span class="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded-md font-medium">${p.duration}</span>
+                            <span class="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded-md font-medium whitespace-nowrap ml-2">${p.duration}</span>
                         </div>
-                        <p class="text-sm text-slate-500 mb-4 line-clamp-2 cursor-pointer" onclick="alert('${p.details}')"><i class="fas fa-info-circle mr-1"></i>${p.details}</p>
+                        <p class="text-sm text-slate-500 mb-4 line-clamp-2 cursor-pointer" onclick="alert('${p.details}')"><i class="fas fa-info-circle mr-1"></i> ${p.details}</p>
                     </div>
                     <div class="flex items-center justify-between mt-auto pt-4 border-t border-slate-100">
                         <span class="text-2xl font-bold text-slate-800">${p.price} ฿</span>
@@ -546,15 +543,11 @@
             }
         }
 
-        function closeAdmin() {
-            document.getElementById('adminModal').classList.add('hidden');
-        }
+        function closeAdmin() { document.getElementById('adminModal').classList.add('hidden'); }
 
         function switchAdminTab(tab) {
-            const tProd = document.getElementById('tab-products');
-            const tPopup = document.getElementById('tab-popup');
-            const cProd = document.getElementById('admin-products-tab');
-            const cPopup = document.getElementById('admin-popup-tab');
+            const tProd = document.getElementById('tab-products'), tPopup = document.getElementById('tab-popup');
+            const cProd = document.getElementById('admin-products-tab'), cPopup = document.getElementById('admin-popup-tab');
 
             if(tab === 'products') {
                 cProd.classList.remove('hidden'); cPopup.classList.add('hidden');
@@ -571,11 +564,15 @@
             const list = document.getElementById('adminProductList');
             list.innerHTML = '';
             productsData.forEach(p => {
+                const thumbHtml = p.imageUrl ? `<img src="${p.imageUrl}" class="w-12 h-12 object-cover rounded-lg border border-slate-200">` : `<div class="w-12 h-12 bg-slate-100 rounded-lg flex items-center justify-center text-slate-400"><i class="fas fa-box"></i></div>`;
                 list.innerHTML += `
                     <div class="flex justify-between items-center bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-                        <div class="flex-1 pr-4">
-                            <h4 class="font-bold text-slate-800 truncate">${p.name}</h4>
-                            <p class="text-sm text-slate-500">${p.price} ฿ | ${p.duration}</p>
+                        <div class="flex items-center gap-3 flex-1 pr-4 overflow-hidden">
+                            ${thumbHtml}
+                            <div class="truncate">
+                                <h4 class="font-bold text-slate-800 truncate">${p.name}</h4>
+                                <p class="text-sm text-slate-500">${p.price} ฿ | ${p.duration}</p>
+                            </div>
                         </div>
                         <div class="flex gap-2">
                             <button onclick="openProductForm('${p.id}')" class="bg-yellow-50 text-yellow-600 p-3 rounded-lg hover:bg-yellow-100 transition"><i class="fas fa-edit"></i></button>
@@ -592,6 +589,7 @@
                 const p = productsData.find(x => x.id === id);
                 document.getElementById('productFormTitle').innerText = "แก้ไขสินค้า";
                 document.getElementById('adminProdId').value = p.id;
+                document.getElementById('adminProdImg').value = p.imageUrl || '';
                 document.getElementById('adminProdName').value = p.name;
                 document.getElementById('adminProdDur').value = p.duration;
                 document.getElementById('adminProdPrice').value = p.price;
@@ -599,6 +597,7 @@
             } else {
                 document.getElementById('productFormTitle').innerText = "เพิ่มสินค้าใหม่";
                 document.getElementById('adminProdId').value = "";
+                document.getElementById('adminProdImg').value = "";
                 document.getElementById('adminProdName').value = "";
                 document.getElementById('adminProdDur').value = "";
                 document.getElementById('adminProdPrice').value = "";
@@ -609,6 +608,7 @@
         async function saveAdminProduct() {
             const p = {
                 id: document.getElementById('adminProdId').value,
+                imageUrl: document.getElementById('adminProdImg').value,
                 name: document.getElementById('adminProdName').value,
                 duration: document.getElementById('adminProdDur').value,
                 price: document.getElementById('adminProdPrice').value,
@@ -624,13 +624,10 @@
                     method: 'POST', body: JSON.stringify({ action: 'ADMIN_SAVE_PRODUCT', payload: p })
                 });
                 closeModal('productFormModal');
-                await fetchData(); // โหลดข้อมูลใหม่หลังจากเซฟ
+                await fetchData(); 
                 renderAdminProducts();
-            } catch (e) {
-                alert(e);
-            } finally {
-                document.getElementById('loadingOverlay').classList.add('hidden');
-            }
+            } catch (e) { alert(e); } 
+            finally { document.getElementById('loadingOverlay').classList.add('hidden'); }
         }
 
         async function deleteProduct(id) {
@@ -643,11 +640,8 @@
                 });
                 await fetchData();
                 renderAdminProducts();
-            } catch (e) {
-                alert(e);
-            } finally {
-                document.getElementById('loadingOverlay').classList.add('hidden');
-            }
+            } catch (e) { alert(e); } 
+            finally { document.getElementById('loadingOverlay').classList.add('hidden'); }
         }
 
         async function saveAdminPopup() {
@@ -665,11 +659,8 @@
                 });
                 alert("บันทึกการตั้งค่า Popup เรียบร้อย");
                 await fetchData();
-            } catch(e) {
-                alert(e);
-            } finally {
-                document.getElementById('loadingOverlay').classList.add('hidden');
-            }
+            } catch(e) { alert(e); } 
+            finally { document.getElementById('loadingOverlay').classList.add('hidden'); }
         }
     </script>
 </body>
