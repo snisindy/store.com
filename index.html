@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>SNI sindy แอปพรีเมียม</title>
     
+    <!-- Favicon (Browser Tab Icon) -->
+    <link rel="icon" type="image/png" href="https://s.imgz.io/2026/07/15/DA0D2171-669F-4863-B0AD-A3084C2E881A787a7e4aae484696.png">
+    <link rel="shortcut icon" type="image/png" href="https://s.imgz.io/2026/07/15/DA0D2171-669F-4863-B0AD-A3084C2E881A787a7e4aae484696.png">
+
     <!-- PWA / Home Screen Meta -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="white">
@@ -53,7 +57,7 @@
     <!-- Global Loading Overlay -->
     <div id="loadingOverlay" class="fixed inset-0 bg-white/90 z-[100] flex flex-col items-center justify-center">
         <div class="loader mb-4"></div>
-        <p class="text-slate-500 font-medium tracking-wide">กำลังประมวลผล...</p>
+        <p class="text-slate-500 font-medium tracking-wide">กำลังโหลดนะคะ</p>
     </div>
 
     <!-- In-App Browser Warning -->
@@ -478,10 +482,7 @@
         
         dropZone.addEventListener('click', () => slipInput.click());
         dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('drag-over'); });
-        
-        // แก้ไขบรรทัดนี้แล้ว (ลบวงเล็บปีกกาที่เกินมาออก)
         dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
-        
         dropZone.addEventListener('drop', (e) => {
             e.preventDefault(); dropZone.classList.remove('drag-over');
             if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
